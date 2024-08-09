@@ -6,15 +6,23 @@ import { loadCart } from '../data/cart.js';
 //import '../data/backened-practise.js';
 
 async function loadPage() { //async makes a func return a promise
-  
+  try {
+    //throw 'error1';  //manually create error
 
-  await loadProductsFetch(); //await only inside async fnc
 
-  await new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    }); 
-  });
+    await loadProductsFetch(); //await only inside async fnc
+
+    const value = await new Promise((resolve, reject) => {
+      //throw 'error2';
+      loadCart(() => {
+        // reject('error3'); // create error asynchronously
+        resolve('value3');
+      }); 
+    });
+
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.');
+  }
 
   renderOrderSummary();
   renderPaymentSummary(); 
